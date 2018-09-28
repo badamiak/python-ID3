@@ -78,19 +78,25 @@ if __name__ == '__main__':
     ### Growing the tree ###
 
 
-    # if sidx > sorted_ig
-    index = info_gains[sorted_ig[0]]
-    _,_,grouped_entropies = get_grouped_entropies(data,index,args.decision_attribute)
+    def grow_the_tree(input_node: tree.Node, sorted_ig_index:int, input_data:list):
+        if sorted_ig_index > len(sorted_ig):
+            return input_node
 
-    node = tree.Node(index) ## pass as input into recursive method
-    for value in grouped_entropies:
-        if grouped_entropies[value][0]==0:
-            decision = linq.where(data, lambda x: x[index] == value)[0][args.decision_attribute]
-            node.append(tree.Node('{}->{}'.format(value, decision)))
-    #     else:
-    #         node.append()#append recursive call
-    
-    # return node
+        index = info_gains[sorted_ig[sorted_ig_index]]
+        _,_,grouped_entropies = get_grouped_entropies(input_data,index,args.decision_attribute)
+
+        node = input_node ## pass as input into recursive method
+        for value in grouped_entropies:
+            if grouped_entropies[value][0]==0:
+                decision = linq.where(input_data, lambda x: x[index] == value)[0][args.decision_attribute]
+                node.append(tree.Node('{}->{}'.format(value, decision)))
+            else:
+                new_node = tree.Node('{}->{}'.format(value,info_gains[sorted_ig[index+1]]))
+                new_data = linq.remove_all(data, lambda x: x[index] == value)
+                node.append(grow_the_tree(new_node, sorted_ig_index+1, new_data))#append recursive call
+        return node
+
+    node = grow_the_tree(tree.Node(0),0,data)
     print(node.draw())
         
         

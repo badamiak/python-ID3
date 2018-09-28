@@ -7,7 +7,11 @@ class Node(object):
         self.child_nodes.append(child_node)
     
     def draw(self, depth:int = 0):
-        tree = '{}{}\n'.format('+'*depth, self.name)
+        # tree = self.name
+        # for child in self.child_nodes:
+        #     tree+='\n{}.{}'.format(self.name,child.draw)
+        # return tree
+        tree = '{}{}'.format(('|'*depth) + '+->', self.name)
         for child in self.child_nodes:
-            tree += '{}\n'.format(child.draw(depth+1))
+            tree += '\n{}'.format(child.draw(depth+1))
         return tree
