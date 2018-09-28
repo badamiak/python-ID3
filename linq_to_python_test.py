@@ -91,9 +91,12 @@ class linq_test(unittest.TestCase):
         self.assertTrue(item3 in result[1])
         self.assertFalse(item3 in result[2])
         
+    def test_remove_all(self):
+        collection = [1,2,3,1,3,5]
 
-        
+        result = linq.remove_all(collection, lambda x: x == 3)
 
+        self.assertEqual(result, [1,2,1,5])
 
 if __name__ == '__main__':
     unittest.main()

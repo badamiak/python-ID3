@@ -52,3 +52,13 @@ def group_by(collection:list, selector)->dict:
             result[key].append(item)
     
     return result
+
+def remove_all(collection:list, selector) -> list:
+    
+    result = list()
+
+    for item in collection:
+        if not selector(item):
+            result.append(item)
+    
+    return result
