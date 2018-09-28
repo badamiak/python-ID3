@@ -29,28 +29,6 @@ def read_input_data(file_path:str, decision_index:int):
         
         return data
 
-# def calculate_info_gain(collection:list, decision_entropy)->dict:
-#     attribute_values = dict() #dictionary<index, list<index_values>>
-
-#     facts_attributes = linq.select(collection, lambda x: x.attributes) #list<list<int>>
-
-#     for i in range(len(facts_attributes[0])):
-#         attribute_values[i] = list()
-#         for attributes in facts_attributes:
-#             attribute_values[i].append(attributes[i]) ###słownik <atrybut, wartości występujące>
-
-#     info_gains = dict()
-
-#     for key in attribute_values:
-
-#         values_count
-
-#         print (attribute_values[key])
-#         info_gains[key] = id3math.get_entropy(attribute_values[key])
-
-#     print (info_gains)
-
-
 def get_info_gain_for_attribute(data, attribute_intex:int, decision_attribute_index:int):
     grouped = linq.group_by(data, lambda x: x[attribute_intex])
 
