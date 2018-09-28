@@ -12,7 +12,7 @@ def parse_args(args = sys.argv):
     print('Args are: {}'.format(args))
     print('setting-up parser')
     parser = argparse.ArgumentParser(args)
-    parser.add_argument('-d', dest = 'decision_attribute', type=int, default = 0)
+    parser.add_argument('-d', dest = 'decision_attribute', help='ignored', type=int, default = 0)
     parser.add_argument('file', metavar = 'F', nargs=1, type=str, default = None)
 
     print('parsing args')
@@ -58,18 +58,14 @@ def get_info_gain_for_attribute(data, attribute_intex:int, decision_attribute_in
 
 if __name__ == '__main__':
     args = parse_args()
-
     data = read_input_data(args.file[0], args.decision_attribute)
+    args.decision_attribute = len(data[0])-1 
 
     decision_entropy = id3math.get_entropy(linq.select(data, lambda x: x[args.decision_attribute]))
 
     print('dataset entropy: {}'.format(decision_entropy))
 
     info_gains = linq.to_dict(range(len(data[0])-1), lambda i: get_info_gain_for_attribute(data,i,args.decision_attribute),lambda i: i)
-    
-    # for i in range(len(data[0])-1):
-    #     info_gain = get_info_gain_for_attribute(data,i,args.decision_attribute)
-    #     print('info gain for attribute {}: {}'.format(i, info_gain))
 
     sorted_ig = sorted(info_gains, reverse=True)
     
