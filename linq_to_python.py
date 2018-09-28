@@ -33,3 +33,22 @@ def to_dict(collection:list, key_selector, value_selector) -> dict:
             result[key] = value_selector(item)
 
     return result
+
+def dict_select(dictionary:dict, selector) -> list:
+    result = list()
+    for key in dictionary:
+        result.append(selector(key, dictionary[key]))
+    return result
+
+def group_by(collection:list, selector)->dict:
+    result = dict()
+
+    for item in collection:
+        key = selector(item)
+        if key in result:
+            result[key].append(item)
+        else:
+            result[key] = list()
+            result[key].append(item)
+    
+    return result

@@ -52,6 +52,48 @@ class linq_test(unittest.TestCase):
         self.assertEqual(result[5], 1)
         self.assertEqual(result[6], 2)
 
+    def test_dict_select_on_key(self):
+        test = {1:5, 2:6, 5:7}
+
+        result = linq.dict_select(test, lambda key, value: key)
+
+        self.assertTrue(1 in result)
+        self.assertTrue(2 in result)
+        self.assertTrue(5 in result)
+        self.assertFalse(6 in result)
+        self.assertFalse(7 in result)
+
+    def test_dict_select_on_value(self):
+        test = {1:5, 2:6, 5:7}
+
+        result = linq.dict_select(test, lambda key, value: value)
+
+        self.assertTrue(5 in result)
+        self.assertTrue(6 in result)
+        self.assertTrue(7 in result)
+        self.assertFalse(1 in result)
+        self.assertFalse(2 in result)
+
+    def test_group_by(self):
+        item1 = [1, 4]
+        item2 = [2, 6]
+        item3 = [1, 5]
+
+        test = [item1, item2, item3]
+        result = linq.group_by(test, lambda x: x[0])
+
+        self.assertTrue(item1 in result[1])
+        self.assertFalse(item1 in result[2])
+        
+        self.assertTrue(item2 in result[2])
+        self.assertFalse(item2 in result[1])
+        
+        self.assertTrue(item3 in result[1])
+        self.assertFalse(item3 in result[2])
+        
+
+        
+
 
 if __name__ == '__main__':
     unittest.main()
